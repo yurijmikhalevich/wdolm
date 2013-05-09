@@ -40,3 +40,8 @@ QString LoginRequestForm::getPassword()
 {
     return ui->password->text();
 }
+
+QString LoginRequestForm::getDomain()
+{
+    return ui->domain->text();
+}

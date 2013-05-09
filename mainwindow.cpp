@@ -38,12 +38,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->treeWidget, SIGNAL(itemSelectionChanged()),
             this, SLOT(selectionChanged()));
     menu = new QMenu;
-    menu->addAction(tr("Включить"), this, SLOT(powerup()),
+    menu->addAction(tr("Poweron"), this, SLOT(powerup()),
                     QKeySequence(tr("Ctrl+U")));
-    menu->addAction(tr("Выключить"), this, SLOT(powerdown()),
+    menu->addAction(tr("Shutdown"), this, SLOT(powerdown()),
                     QKeySequence(tr("Ctrl+D")));
-    menu->addAction(tr("Выключить через два часа"), this, SLOT(powerdown()));
-    addComputers(QString("computers.txt"));
+    menu->addAction(tr("Shutdown after 2 hours"), this, SLOT(powerdown()));
+    addComputers("computers.txt");
     ui->treeWidget->expandAll();
 }
 
@@ -79,8 +79,7 @@ void MainWindow::addComputers(QString fileName)
                         if (i)
                             currentItem = currentItem->child(num.toInt());
                         else
-                            currentItem
-                                    = ui->treeWidget->topLevelItem(num.toInt());
+                            currentItem = ui->treeWidget->topLevelItem(num.toInt());
                     }
                     QTreeWidgetItem *prevItem = currentItem;
                     currentItem = new QTreeWidgetItem(QStringList(line.at(1)));
@@ -90,12 +89,9 @@ void MainWindow::addComputers(QString fileName)
         } while (!stream.atEnd());
         file.close();
     } else {
-        QMessageBox::critical(this, tr("Критическая ошибка"),
-                              tr("Не удалось прочитать данные о компьютерах из "
-                                 "файла. Убедитесь, что в директории приложения"
-                                 " присутствует файл «computers.txt» и у вас ес"
-                                 "ть права на его чтение или укажите файл в руч"
-                                 "ную. Указать местоположение файла в ручную?"),
+        QMessageBox::critical(this, tr("Critical error"),
+                              tr("Unable to read the data on the computers. Make sure that file «computers.txt» located"
+                                 " in the application directory and you have the right to read it."),
                               QMessageBox::Ok);
     }
 }
@@ -147,19 +143,21 @@ void MainWindow::powerdown()
         if (items.at(i)->childCount() == 0) {
             Computer *comp = static_cast<Computer *>(items.at(i));
             QAction *sndr = static_cast<QAction *>(sender());
-            QString l;
-            QString p;
             if (login.isEmpty()) {
                 LoginRequestForm *form = new LoginRequestForm(this);
                 form->show();
-                l = form->getLogin();
-                p = form->getPassword();
+                login = form->getLogin();
+                password = form->getPassword();
+                domain = form->getDomain();
                 delete form;
             }
-            if (sndr->text() == tr("Выключить компьютер через два часа"))
-                comp->shutdown(l, p, 60 * 120);
+            if (login.isEmpty() || password.isEmpty() || domain.isEmpty()) {
+                return;
+            }
+            if (sndr->text() == tr("Shutdown computer after 2 hours"))
+                comp->shutdown(login, password, domain, 60 * 120);
             else
-                comp->shutdown(l, p);
+                comp->shutdown(login, password, domain);
         }
     }
 }

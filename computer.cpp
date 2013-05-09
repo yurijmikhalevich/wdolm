@@ -1,6 +1,6 @@
 /*
     computer.cpp
-    Copyright (C) 2011 Mikhalevich Yurij <count@ypsilon.me>
+    Copyright (C) 2011 Mikhalevich Yurij <0@39.yt>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ void Computer::run()
 void Computer::action()
 {
     if (shutdownFlag) {
-        execShutdown(login, password, shutdownTimeout);
+        execShutdown(login, password, domain, shutdownTimeout);
         shutdownFlag = false;
     }
     if (poweronFlag) {
@@ -61,11 +61,12 @@ void Computer::action()
     }
 }
 
-void Computer::shutdown(QString login, QString password, quint32 timeout) {
+void Computer::shutdown(QString login, QString password, QString domain, quint32 timeout) {
     shutdownTimeout = timeout;
     shutdownFlag = true;
     this->login = login;
     this->password = password;
+    this->domain = domain;
 }
 
 void Computer::poweron() {
@@ -76,17 +77,17 @@ void Computer::checkState() {
     checkStateFlag = true;
 }
 
-void Computer::execShutdown(QString login, QString password, quint32 timeout)
+void Computer::execShutdown(QString login, QString password, QString domain, quint32 timeout)
 {
     QProcess proc;
 #ifdef Q_OS_UNIX
     proc.start("net rpc shutdown -U " + login + "%" + password + " -f -S "
-               + text(0) + ".kubgau.local -t " + QString::number(timeout));
+               + text(0) + "." + domain + " -t " + QString::number(timeout));
 #endif
 #ifdef Q_OS_WIN32
-    proc.start("cmd /c \"net use \\\\" + text(0) + ".kubgau.local " + password
+    proc.start("cmd /c \"net use \\\\" + text(0) + "." + domain + " " + password
                + " /user:" + login + " && shutdown -s -f -m \\\\" + text(0)
-               + ".kubgau.local -t" + QString::number(timeout) + "\"");
+               + "." + domain + " -t" + QString::number(timeout) + "\"");
 #endif
     proc.waitForFinished(-1);
     qApp->processEvents();
