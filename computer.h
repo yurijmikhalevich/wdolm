@@ -38,7 +38,8 @@ private:
     quint32 shutdownTimeout;
     QString login;
     QString password;
-    void execShutdown(QString login, QString password, quint32 timeout);
+    QString domain;
+    void execShutdown(QString login, QString password, QString domain, quint32 timeout);
     void execPoweron();
     void execCheckState();
     void run();
@@ -51,7 +52,7 @@ signals:
     void online();
 
 public slots:
-    void shutdown(QString login, QString password, quint32 timeout = 5);
+    void shutdown(QString login, QString password, QString domain, quint32 timeout = 5);
     void poweron();
     void checkState();
 };
