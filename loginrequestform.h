@@ -34,6 +34,7 @@ public:
     ~LoginRequestForm();
     QString getLogin();
     QString getPassword();
+    QString getDomain();
     
 private:
     Ui::LoginRequestForm *ui;

@@ -40,6 +40,7 @@ private:
     void addComputers(QString fileName = "computers.txt");
     QString login;
     QString password;
+    QString domain;
 
 private slots:
     void computerOffline();

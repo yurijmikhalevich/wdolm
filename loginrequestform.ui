@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>291</width>
-    <height>125</height>
+    <width>364</width>
+    <height>144</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,6 +30,37 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt; font-weight:600;&quot;&gt;domainname/username&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="2">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="1">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QPushButton" name="proceed">
+       <property name="text">
+        <string>OK</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancel">
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
    <item row="0" column="0" colspan="3">
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
@@ -56,79 +87,20 @@ p, li { white-space: pre-wrap; }
        </property>
       </widget>
      </item>
-    </layout>
-   </item>
-   <item row="1" column="0" colspan="3">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QCheckBox" name="remember">
-       <property name="text">
-        <string>Запомнить пароль на</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="domain"/>
      </item>
-     <item>
-      <widget class="QComboBox" name="howLong">
-       <item>
-        <property name="text">
-         <string>15 минут</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>сеанс</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>всё время</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string/>
-        </property>
-       </item>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="2" column="1">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QPushButton" name="proceed">
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Выключить</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="cancel">
-       <property name="text">
-        <string>Отменить</string>
+        <string>domain:</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
-   <item row="2" column="0">
+   <item row="1" column="0">
     <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="2" column="2">
-    <spacer name="horizontalSpacer_2">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -145,18 +117,82 @@ p, li { white-space: pre-wrap; }
  <resources/>
  <connections>
   <connection>
-   <sender>remember</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>howLong</receiver>
-   <slot>setEnabled(bool)</slot>
+   <sender>proceed</sender>
+   <signal>clicked()</signal>
+   <receiver>LoginRequestForm</receiver>
+   <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>74</x>
-     <y>81</y>
+     <x>139</x>
+     <y>157</y>
     </hint>
     <hint type="destinationlabel">
-     <x>213</x>
-     <y>82</y>
+     <x>181</x>
+     <y>89</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cancel</sender>
+   <signal>clicked()</signal>
+   <receiver>login</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>224</x>
+     <y>157</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>226</x>
+     <y>19</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cancel</sender>
+   <signal>clicked()</signal>
+   <receiver>password</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>224</x>
+     <y>157</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>226</x>
+     <y>51</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cancel</sender>
+   <signal>clicked()</signal>
+   <receiver>domain</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>224</x>
+     <y>157</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>226</x>
+     <y>84</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cancel</sender>
+   <signal>clicked()</signal>
+   <receiver>LoginRequestForm</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>224</x>
+     <y>157</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>181</x>
+     <y>89</y>
     </hint>
    </hints>
   </connection>
